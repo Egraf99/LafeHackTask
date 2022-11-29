@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.lifehacktask.data.api.ApiHelper
 import com.example.lifehacktask.data.repository.CompaniesRepo
-import com.example.lifehacktask.ui.CompaniesListViewModel
+import com.example.lifehacktask.ui.listCompanies.CompaniesListViewModel
 
 class ViewModelFactory(private val apiHelper: ApiHelper): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

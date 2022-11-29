@@ -1,4 +1,4 @@
-package com.example.lifehacktask.ui
+package com.example.lifehacktask.ui.listCompanies
 
 import android.os.Bundle
 import android.util.Log
@@ -8,26 +8,26 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lifehacktask.R
 import com.example.lifehacktask.data.api.ApiHelper
-import com.example.lifehacktask.data.repository.CompaniesRepo
 import com.example.lifehacktask.data.model.Company
-import com.example.lifehacktask.data.api.CompaniesService
 import com.example.lifehacktask.data.api.RetrofitBuilder
 import com.example.lifehacktask.databinding.CompaniesListFragmentBinding
 import com.example.lifehacktask.databinding.CompanyHolderBinding
 import com.example.lifehacktask.ui.base.ViewModelFactory
+import com.example.lifehacktask.ui.company_interface.OnCompanyHolderClick
+import com.example.lifehacktask.ui.singleCompany.SingleCompanyFragment
 import com.example.lifehacktask.utils.Status
-import retrofit2.Call
-import retrofit2.Response
 
 private const val TAG = "CLF"
 
-class CompaniesListFragment: Fragment() {
+class CompaniesListFragment : Fragment(), OnCompanyHolderClick {
     private var _binding: CompaniesListFragmentBinding? = null
     private val binding get() = _binding!!
-    private var adapter = CompaniesAdapter(arrayListOf())
+    private var adapter = CompaniesAdapter(this, arrayListOf())
 
     private val viewModel: CompaniesListViewModel by lazy {
         ViewModelProvider(
@@ -89,7 +89,14 @@ class CompaniesListFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+        binding.progressBar.visibility = View.GONE
+        binding.tryAgainBn.visibility = View.GONE
         binding.tryAgainBn.setOnClickListener { observeCompanies() }
+    }
+
+    override fun onClick(id: Int) {
+        val bundle = SingleCompanyFragment.putId(id)
+        findNavController().navigate(R.id.action_fromList_toSingle, bundle)
     }
 
     override fun onDestroy() {
@@ -98,13 +105,17 @@ class CompaniesListFragment: Fragment() {
     }
 }
 
-class CompaniesAdapter(private val companies: ArrayList<Company>) :
+class CompaniesAdapter(
+    private val listener: OnCompanyHolderClick,
+    private val companies: ArrayList<Company>
+) :
     RecyclerView.Adapter<CompanyHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompanyHolder =
         CompanyHolder(
             CompanyHolderBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
-            )
+            ),
+            listener
         )
 
     override fun onBindViewHolder(holder: CompanyHolder, position: Int) =
@@ -120,10 +131,23 @@ class CompaniesAdapter(private val companies: ArrayList<Company>) :
     }
 }
 
-class CompanyHolder(private val binding: CompanyHolderBinding) :
-    RecyclerView.ViewHolder(binding.root) {
+class CompanyHolder(
+    private val binding: CompanyHolderBinding,
+    private val listener: OnCompanyHolderClick
+) :
+    RecyclerView.ViewHolder(binding.root), View.OnClickListener {
+    init {
+        itemView.setOnClickListener(this)
+    }
+
+    private var companyId = 0
+
     fun bind(company: Company) {
-        Log.d(TAG, "bind: $company")
+        companyId = company.id
         binding.companyName.text = company.name
+    }
+
+    override fun onClick(v: View?) {
+        listener.onClick(companyId)
     }
 }

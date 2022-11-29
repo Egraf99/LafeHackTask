@@ -5,6 +5,14 @@
     app:startDestination="@id/companiesListFragment">
     <fragment
         android:id="@+id/companiesListFragment"
-        android:name="com.example.lifehacktask.ui.CompaniesListFragment"
-        android:label="CompaniesListFragment" />
+        android:name="com.example.lifehacktask.ui.listCompanies.CompaniesListFragment"
+        android:label="CompaniesListFragment" >
+        <action
+            android:id="@+id/action_fromList_toSingle"
+            app:destination="@id/singleCompanyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleCompanyFragment"
+        android:name="com.example.lifehacktask.ui.singleCompany.SingleCompanyFragment"
+        android:label="SingleCompanyFragment" />
 </navigation>

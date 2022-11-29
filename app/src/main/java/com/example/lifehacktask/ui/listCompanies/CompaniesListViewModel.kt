@@ -1,4 +1,4 @@
-package com.example.lifehacktask.ui
+package com.example.lifehacktask.ui.listCompanies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
