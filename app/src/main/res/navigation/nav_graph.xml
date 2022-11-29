@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
     app:startDestination="@id/companiesListFragment">
-
     <fragment
         android:id="@+id/companiesListFragment"
         android:name="com.example.lifehacktask.ui.CompaniesListFragment"
