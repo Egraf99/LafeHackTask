@@ -42,21 +42,27 @@ class CompaniesListFragment: Fragment() {
     }
 
     private fun setupObservers() {
+        observeCompanies()
+    }
+
+    private fun observeCompanies() {
         viewModel.getCompanies().observe(this) { resource ->
             when (resource.status) {
                 Status.SUCCESS -> {
                     binding.companiesRv.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
+                    binding.tryAgainBn.visibility = View.GONE
                     resource.data?.let { companies -> retrieveList(companies) }
                 }
                 Status.ERROR -> {
                     binding.companiesRv.visibility = View.VISIBLE
                     binding.progressBar.visibility = View.GONE
-                    Log.d(TAG, "setupObservers: ${resource.message}")
+                    binding.tryAgainBn.visibility = View.VISIBLE
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_LONG).show()
                 }
                 Status.LOADING -> {
                     binding.companiesRv.visibility = View.GONE
+                    binding.tryAgainBn.visibility = View.GONE
                     binding.progressBar.visibility = View.VISIBLE
                 }
             }
@@ -79,6 +85,11 @@ class CompaniesListFragment: Fragment() {
         binding.companiesRv.layoutManager = LinearLayoutManager(context)
         binding.companiesRv.adapter = adapter
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.tryAgainBn.setOnClickListener { observeCompanies() }
     }
 
     override fun onDestroy() {
