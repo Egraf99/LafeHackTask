@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">LifeHackTask</string>
+    <string name="company_image">Company image</string>
 </resources>
