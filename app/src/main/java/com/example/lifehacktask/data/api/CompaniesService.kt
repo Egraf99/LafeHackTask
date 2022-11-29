@@ -12,7 +12,7 @@ interface CompaniesService {
     @GET("/test_task/test.php")
     suspend fun searchForCompany(
         @Query("id") id: Int
-    ): Company
+    ): List<Company>
 
 //    @GET("/test.php/")
 //    suspend fun searchForCompany(

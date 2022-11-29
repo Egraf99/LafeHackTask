@@ -22,8 +22,6 @@ import com.example.lifehacktask.ui.company_interface.OnCompanyHolderClick
 import com.example.lifehacktask.ui.singleCompany.SingleCompanyFragment
 import com.example.lifehacktask.utils.Status
 
-private const val TAG = "CLF"
-
 class CompaniesListFragment : Fragment(), OnCompanyHolderClick {
     private var _binding: CompaniesListFragmentBinding? = null
     private val binding get() = _binding!!
