@@ -2,12 +2,10 @@ package com.example.lifehacktask.ui.singleCompany
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.example.lifehacktask.data.repository.CompaniesRepo
 import com.example.lifehacktask.data.model.Company
+import com.example.lifehacktask.data.repository.CompaniesRepo
 import com.example.lifehacktask.utils.Resource
 import kotlinx.coroutines.Dispatchers
-import okhttp3.Dispatcher
-import java.lang.Exception
 
 class SingleCompanyViewModel(private val repo: CompaniesRepo): ViewModel() {
     var company: Company? = null

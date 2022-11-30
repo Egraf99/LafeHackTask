@@ -1,7 +1,6 @@
 package com.example.lifehacktask.data.api
 
 import com.example.lifehacktask.data.model.Company
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

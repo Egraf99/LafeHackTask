@@ -1,7 +1,6 @@
 package com.example.lifehacktask.ui.listCompanies
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lifehacktask.R
 import com.example.lifehacktask.data.api.ApiHelper
-import com.example.lifehacktask.data.model.Company
 import com.example.lifehacktask.data.api.RetrofitBuilder
+import com.example.lifehacktask.data.model.Company
 import com.example.lifehacktask.databinding.CompaniesListFragmentBinding
 import com.example.lifehacktask.databinding.CompanyHolderBinding
 import com.example.lifehacktask.ui.base.ViewModelFactory
