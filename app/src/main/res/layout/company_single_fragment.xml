@@ -7,35 +7,82 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:background="@android:color/darker_gray"
+        android:contentDescription="@string/company_image"/>
 
     <TextView
         android:id="@+id/company_name_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView"
-        tools:text="Company Name" />
+        tools:text="Company name" />
 
-    <TextView
-        android:id="@+id/description_tv"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/contacts_ll"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        tools:text="Description about company"
+        android:layout_marginStart="32dp"
+        android:paddingVertical="16dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingVertical="8dp"
+            android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:text="Phone" />
+
+        <TextView
+            android:id="@+id/web"
+            android:textColor="@android:color/holo_blue_dark"
+            android:paddingVertical="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Description about company" />
+
+        <TextView
+            android:id="@+id/location"
+            android:textColor="@android:color/holo_blue_dark"
+            android:paddingVertical="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="location" />
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/contacts_ll">
+
+        <TextView
+            android:id="@+id/description_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Description about company" />
+
+    </ScrollView>
 
     <Button
         android:id="@+id/try_again_bn"

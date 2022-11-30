@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -45,16 +46,19 @@ class SingleCompanyFragment: Fragment() {
                 Status.SUCCESS -> {
                     binding.progressBar.visibility = View.GONE
                     binding.tryAgainBn.visibility = View.GONE
+                    binding.imageView.visibility = View.VISIBLE
                     resource.data?.let { company -> updateUI(company[0]) }
                 }
                 Status.ERROR -> {
                     binding.progressBar.visibility = View.GONE
                     binding.tryAgainBn.visibility = View.VISIBLE
+                    binding.imageView.visibility = View.GONE
                     Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show()
                 }
                 Status.LOADING -> {
                     binding.progressBar.visibility = View.VISIBLE
                     binding.tryAgainBn.visibility = View.GONE
+                    binding.imageView.visibility = View.GONE
                 }
             }
         }
@@ -63,6 +67,27 @@ class SingleCompanyFragment: Fragment() {
     private fun updateUI(company: Company) {
         binding.companyNameTv.text = company.name
         binding.descriptionTv.text = company.description
+        updateViewIfNotBlank(
+            binding.phone,
+            company.phone
+        ) { company.phone.isNotBlank() && company.phone != "0" && company.phone != "null" }
+        updateViewIfNotBlank(
+            binding.web,
+            company.www
+        ) { company.www.isNotBlank() && company.www != "0" && company.www != "null" }
+        updateViewIfNotBlank(
+            binding.location,
+            "${company.lat} ${company.long}"
+        ) {
+            (company.lat.isNotBlank() && company.long.isNotBlank()) &&
+                    (company.lat != "0" && company.long != "0") &&
+                    (company.lat != "null" && company.long != "null")
+        }
+    }
+
+    private fun updateViewIfNotBlank(view: TextView, text: String, p: () -> Boolean) {
+        if (!p()) view.visibility = View.GONE
+        else view.text = text
     }
 
     override fun onCreateView(
@@ -78,6 +103,7 @@ class SingleCompanyFragment: Fragment() {
         super.onStart()
         binding.progressBar.visibility = View.GONE
         binding.tryAgainBn.visibility = View.GONE
+        binding.imageView.visibility = View.GONE
         binding.tryAgainBn.setOnClickListener { observeCompany(companyId) }
     }
 

@@ -7,13 +7,13 @@
 
     <ImageView
         android:id="@+id/companyImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
+        android:background="@android:color/darker_gray"
         android:contentDescription="@string/company_image" />
 
     <TextView
