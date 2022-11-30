@@ -1,5 +1,7 @@
 package com.example.lifehacktask.ui.singleCompany
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,6 +20,7 @@ import com.example.lifehacktask.utils.Status
 import kotlin.properties.Delegates
 
 private const val ARG_COMPANY_ID = "argCompanyId"
+private const val TAG = "SCF"
 
 class SingleCompanyFragment: Fragment() {
     private var _binding: CompanySingleFragmentBinding? = null
@@ -36,8 +39,6 @@ class SingleCompanyFragment: Fragment() {
         super.onCreate(savedInstanceState)
         companyId =
             arguments?.getInt(ARG_COMPANY_ID) ?: throw IllegalArgumentException("Not receive id")
-        observeCompany(companyId)
-
     }
 
     private fun observeCompany(id: Int) {
@@ -47,7 +48,10 @@ class SingleCompanyFragment: Fragment() {
                     binding.progressBar.visibility = View.GONE
                     binding.tryAgainBn.visibility = View.GONE
                     binding.imageView.visibility = View.VISIBLE
-                    resource.data?.let { company -> updateUI(company[0]) }
+                    resource.data?.let { company ->
+                        viewModel.company = company[0]
+                        updateUI(company[0])
+                    }
                 }
                 Status.ERROR -> {
                     binding.progressBar.visibility = View.GONE
@@ -71,10 +75,12 @@ class SingleCompanyFragment: Fragment() {
             binding.phone,
             company.phone
         ) { company.phone.isNotBlank() && company.phone != "0" && company.phone != "null" }
+
         updateViewIfNotBlank(
             binding.web,
             company.www
         ) { company.www.isNotBlank() && company.www != "0" && company.www != "null" }
+
         updateViewIfNotBlank(
             binding.location,
             "${company.lat} ${company.long}"
@@ -101,10 +107,25 @@ class SingleCompanyFragment: Fragment() {
 
     override fun onStart() {
         super.onStart()
+        observeCompany(companyId)
         binding.progressBar.visibility = View.GONE
         binding.tryAgainBn.visibility = View.GONE
         binding.imageView.visibility = View.GONE
         binding.tryAgainBn.setOnClickListener { observeCompany(companyId) }
+        binding.phone.setOnClickListener {
+            if (viewModel.company == null) return@setOnClickListener
+            val intent = Intent(Intent.ACTION_DIAL)
+            Log.d(TAG, "onStart: phone")
+            intent.data = Uri.parse("tel:${viewModel.company!!.phone}")
+            startActivity(intent)
+        }
+        binding.web.setOnClickListener {
+            if (viewModel.company == null) return@setOnClickListener
+            val intent = Intent(Intent.ACTION_VIEW)
+            Log.d(TAG, "onStart: web")
+            intent.data = Uri.parse("https://${viewModel.company!!.www}")
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {

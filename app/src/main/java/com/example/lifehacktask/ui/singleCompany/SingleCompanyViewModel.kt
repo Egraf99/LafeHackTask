@@ -10,6 +10,7 @@ import okhttp3.Dispatcher
 import java.lang.Exception
 
 class SingleCompanyViewModel(private val repo: CompaniesRepo): ViewModel() {
+    var company: Company? = null
     fun getCompany(id: Int) = liveData(Dispatchers.IO) {
         emit(Resource.loading(data = null))
         try {
